@@ -86,10 +86,10 @@ Return<void> FingerprintInscreen::onFinishEnroll() {
 
 Return<void> FingerprintInscreen::onPress() {
     mFingerPressed = true;
-    set(DIMLAYER_PATH, FP_BEGIN);
     set(HBM_PATH, FP_BEGIN);
+    set(DIMLAYER_PATH, FP_BEGIN);
     std::thread([this]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(69));
+        std::this_thread::sleep_for(std::chrono::milliseconds(39));
         if (mFingerPressed) {
             set(FP_PRESS_PATH, FP_BEGIN);
         }
@@ -106,9 +106,6 @@ Return<void> FingerprintInscreen::onRelease() {
 }
 
 Return<void> FingerprintInscreen::onHideFODView() {
-    set(HBM_PATH, FP_ENDIT);
-    set(DIMLAYER_PATH, FP_ENDIT);
-    set(FP_PRESS_PATH, FP_ENDIT);
     return Void();
 }
 
@@ -127,8 +124,7 @@ Return<void> FingerprintInscreen::setLongPressEnabled(bool) {
 }
 
 Return<int32_t> FingerprintInscreen::getDimAmount(int32_t brightness) {
-    return(int32_t)((brightness > 498) ? (255 * (1.0 - pow(brightness / 2047.0 * 430.0 / 600.0, 0.455))):
-            (255 * (1.0 - pow(brightness / 1605.0, 0.455)))); 
+    return(int32_t)(255 + ((-12.08071) * pow((double)brightness, 0.4))); 
 }
 
 Return<bool> FingerprintInscreen::shouldBoostBrightness() {
