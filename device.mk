@@ -83,6 +83,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
 
+# System prop
+-include $(DEVICE_PATH)/system_prop.mk
+
 # Wi-Fi
 PRODUCT_PACKAGES += \
     TetheringConfigOverlay \
