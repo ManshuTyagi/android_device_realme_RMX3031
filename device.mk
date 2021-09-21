@@ -73,3 +73,7 @@ PRODUCT_PACKAGES += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
+
+# Wi-Fi
+PRODUCT_PACKAGES += \
+    TetheringConfigOverlay
