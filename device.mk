@@ -24,6 +24,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 PRODUCT_SHIPPING_API_LEVEL := 30
 
+# Call proprietary blob setup
+$(call inherit-product-if-exists, vendor/realme/RMX3031/RMX3031-vendor.mk)
+
 # Dynamic Partition
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 PRODUCT_BUILD_SUPER_PARTITION := false
