@@ -1,0 +1,23 @@
+# Remove my_engineering since it might be there and we're not building super or rewriting it
+remove my_engineering
+
+# Remove my_company since it might be there and we're not building super or rewriting it
+remove my_company
+
+# Remove my_carrier since it might be there and we're not building super or rewriting it
+remove my_carrier
+
+# Remove my_region since it might be there and we're not building super or rewriting it
+remove my_region
+
+# Remove my_heytap since it might be there and we're not building super or rewriting it
+remove my_heytap
+
+# Remove my_stock since it might be there and we're not building super or rewriting it
+remove my_stock
+
+# Remove my_preload since it might be there and we're not building super or rewriting it
+remove my_preload
+
+# Remove my_manifest since it might be there and we're not building super or rewriting it
+remove my_manifest
