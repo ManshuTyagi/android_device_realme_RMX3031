@@ -18,6 +18,7 @@ cc_binary {
     defaults: ["hidl_defaults"],
     name: "lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031",
     init_rc: ["lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031.rc"],
+    vintf_fragments: ["lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031.xml"],
     srcs: [
 	"service.cpp",
         "FingerprintInscreen.cpp",
