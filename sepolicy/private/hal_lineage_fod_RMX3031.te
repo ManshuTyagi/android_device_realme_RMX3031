@@ -1,0 +1,17 @@
+type hal_lineage_fod_RMX3031, domain;
+hal_server_domain(hal_lineage_fod_RMX3031, hal_lineage_fod)
+
+type hal_lineage_fod_RMX3031_exec, exec_type, system_file_type, file_type;
+init_daemon_domain(hal_lineage_fod_RMX3031)
+
+# Allow access to the HALs
+hal_client_domain(hal_lineage_fod_RMX3031, hal_fingerprint)
+
+# Allow hal_lineage_fod_RMX3031 to hal_fingerprint_hwservice
+allow hal_lineage_fod_RMX3031 hal_fingerprint_hwservice:hwservice_manager find;
+
+# Allow hal_lineage_fod_RMX3031 to read and write to sysfs_fod
+allow hal_lineage_fod_RMX3031 sysfs_fod:file rw_file_perms;
+
+# Allow to use wakelock
+wakelock_use(hal_lineage_fod_RMX3031)
