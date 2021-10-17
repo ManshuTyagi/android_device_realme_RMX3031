@@ -197,6 +197,9 @@
          on the headphone/microphone jack. When false use the older uevent framework. -->
      <bool name="config_useDevInputEventForAudioJack">false</bool>
 
+    <!-- Shows the required view for in-display fingerprint -->
+    <bool name="config_supportsInDisplayFingerprint">true</bool>
+
     <!-- Enable video pause workaround when enabling/disabling the camera. -->
      <bool name="config_useVideoPauseWorkaround">false</bool>
 
