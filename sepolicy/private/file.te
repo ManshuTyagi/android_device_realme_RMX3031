@@ -1,2 +1,3 @@
 # Nodes
 type sysfs_fod, sysfs_type, fs_type;
+type sysfs_fingerprint_notify, sysfs_type, fs_type;
