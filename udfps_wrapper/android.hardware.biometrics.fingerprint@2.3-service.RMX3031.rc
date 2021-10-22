@@ -1,8 +1,3 @@
-service fps_hal.RMX3031 /system/bin/hw/android.hardware.biometrics.fingerprint@2.1-service.RMX3031
-    class late_start
-    user system
-    group system input
-
 on boot
     chown system system /sys/bus/platform/devices/soc/soc\:fpc_interrupt/clk_enable  
     chown system system /sys/bus/platform/devices/soc/soc\:fpc_interrupt/wakelock_enable
@@ -13,6 +8,23 @@ on boot
     chmod 0200 /sys/bus/platform/devices/soc/soc\:fpc_interrupt/wakelock_enable
     chmod 0600 /sys/bus/platform/devices/soc/soc\:fpc_interrupt/irq
 
+    chmod 0660 /sys/kernel/oppo_display/oppo_notify_fppress
+    chmod 0660 /sys/kernel/oppo_display/hbm
+    chmod 0660 /sys/kernel/oppo_display/dimlayer_bl_en
+    chown system system /sys/kernel/oppo_display/oppo_notify_fppress
+    chown system system /sys/kernel/oppo_display/hbm
+    chown system system /sys/kernel/oppo_display/dimlayer_bl_en
+
 #add for silead
     chown system system /dev/silead_fp
     chmod 0666 /dev/silead_fp
+
+service fps_hal.RMX3031 /system/bin/hw/android.hardware.biometrics.fingerprint@2.3-service.RMX3031
+    class late_start
+    user system
+    group system input uhid
+
+service oppo_fingerprints_sh /vendor/bin/sh /vendor/bin/init.oppo.fingerprints.sh
+    class main
+    user root
+    oneshot

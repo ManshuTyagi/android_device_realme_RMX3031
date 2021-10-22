@@ -41,6 +41,9 @@ TARGET_SCREEN_WIDTH := 1080
 # A/B
 AB_OTA_UPDATER := false
 
+# VNDK
+PRODUCT_EXTRA_VNDK_VERSIONS := 30
+
 # Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default
@@ -57,8 +60,7 @@ PRODUCT_COPY_FILES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service.RMX3031 \
-    lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031
+    android.hardware.biometrics.fingerprint@2.3-service.RMX3031 \
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.fingerprint.xml
@@ -66,6 +68,7 @@ PRODUCT_COPY_FILES += \
 # HIDL
 PRODUCT_PACKAGES += \
     libhidltransport \
+    libhardware \
     libhwbinder
 
 # ImsInit hack
@@ -116,16 +119,6 @@ PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 # Symbols
 PRODUCT_PACKAGES += \
     libshim_vtservice
-
-# Telephony
-PRODUCT_BOOT_JARS += \
-    mediatek-common \
-    mediatek-framework \
-    mediatek-ims-base \
-    mediatek-ims-common \
-    mediatek-telecom-common \
-    mediatek-telephony-base \
-    mediatek-telephony-common
 
 PRODUCT_PACKAGES += \
     ImsServiceBase

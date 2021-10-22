@@ -1,7 +1,5 @@
 # Biometrics
-/system/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.1-service\.RMX3031 u:object_r:hal_fingerprint_RMX3031_exec:s0
-
-/system/bin/hw/lineage\.biometrics\.fingerprint\.inscreen@1.0-service\.RMX3031    u:object_r:hal_lineage_fod_RMX3031_exec:s0
+/system/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.3-service\.RMX3031 u:object_r:hal_fingerprint_RMX3031_exec:s0
 
 /sys/kernel/oppo_display/oppo_notify_fppress     u:object_r:sysfs_fingerprint_notify:s0
 

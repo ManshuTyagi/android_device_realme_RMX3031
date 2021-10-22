@@ -13,7 +13,15 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Color of the FOD view -->
-    <color name="config_fodColor">#00ffffff</color>
+    <color name="config_udfpsColor">#00ffffff</color>
+
+    <!-- HBM type of UDFPS overlay.
+            0 - GLOBAL HBM 
+            1 - LOCAL HBM
+    -->
+    <integer name="config_udfps_hbm_type">0</integer>
+
+    <!-- The radius of the enrollment progress bar, in dp -->
+    <integer name="config_udfpsEnrollProgressBar" translatable="false">100</integer>
 
 </resources>

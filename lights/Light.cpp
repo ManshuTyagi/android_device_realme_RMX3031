@@ -19,10 +19,107 @@
 
 #define LOG_TAG "LightsService"
 
+#include <log/log.h>
+
 #include "Light.h"
-#include <android-base/logging.h>
-#include <android-base/stringprintf.h>
 #include <fstream>
+
+#define LCD_LED         "/sys/class/leds/lcd-backlight/"
+
+#define BRIGHTNESS      "brightness"
+
+#define MAX_BRIGHTNESS  "max_brightness"
+
+namespace {
+/*
+ * Write value to path and close file.
+ */
+static void set(std::string path, std::string value) {
+    std::ofstream file(path);
+
+    if (!file.is_open()) {
+        ALOGW("failed to write %s to %s", value.c_str(), path.c_str());
+        return;
+    }
+
+    file << value;
+}
+
+static void set(std::string path, int value) {
+    set(path, std::to_string(value));
+}
+
+/*
+ * Read max brightness from path and close file.
+ */
+static int getMaxBrightness(std::string path) {
+    std::ifstream file(path);
+    int value;
+
+    if (!file.is_open()) {
+        ALOGW("failed to read from %s", path.c_str());
+        return 0;
+    }
+
+    file >> value;
+    return value;
+}
+
+static uint32_t getBrightness(const LightState& state) {
+    uint32_t alpha, red, green, blue;
+
+    /*
+     * Extract brightness from AARRGGBB.
+     */
+    alpha = (state.color >> 24) & 0xFF;
+    red = (state.color >> 16) & 0xFF;
+    green = (state.color >> 8) & 0xFF;
+    blue = state.color & 0xFF;
+
+    /*
+     * Scale RGB brightness if Alpha brightness is not 0xFF.
+     */
+    red = red * alpha / 0xFF;
+    green = green * alpha / 0xFF;
+    blue = blue * alpha / 0xFF;
+
+    return (77 * red + 150 * green + 29 * blue) >> 8;
+}
+
+static inline uint32_t scaleBrightness(uint32_t brightness, uint32_t maxBrightness) {
+    if (brightness == 0) {
+        return 0;
+    }
+
+    return (brightness - 1) * (maxBrightness - 1) / (0xFF - 1) + 1;
+}
+
+static inline uint32_t getScaledBrightness(const LightState& state, uint32_t maxBrightness) {
+    return scaleBrightness(getBrightness(state), maxBrightness);
+}
+
+static void handleBacklight(const LightState& state) {
+    uint32_t brightness = getScaledBrightness(state, getMaxBrightness(LCD_LED MAX_BRIGHTNESS));
+    set(LCD_LED BRIGHTNESS, brightness);
+}
+
+static void handleNotification(const LightState& state) {
+    (void) state;
+}
+
+static inline bool isLit(const LightState& state) {
+    return state.color & 0x00ffffff;
+}
+
+/* Keep sorted in the order of importance. */
+static std::vector<LightBackend> backends = {
+    { Type::ATTENTION, handleNotification },
+    { Type::NOTIFICATIONS, handleNotification },
+    { Type::BATTERY, handleNotification },
+    { Type::BACKLIGHT, handleBacklight },
+};
+
+}  // anonymous namespace
 
 namespace android {
 namespace hardware {
@@ -30,60 +127,33 @@ namespace light {
 namespace V2_0 {
 namespace implementation {
 
-/*
- * Write value to path and close file.
- */
-template <typename T>
-static void set(const std::string& path, const T& value) {
-    std::ofstream file(path);
-    file << value;
-}
-
-template <typename T>
-static T get(const std::string& path, const T& def) {
-    std::ifstream file(path);
-    T result;
-
-    file >> result;
-    return file.fail() ? def : result;
-}
-
-static int rgbToBrightness(const LightState& state) {
-    int color = state.color & 0x00ffffff;
-    return ((77 * ((color >> 16) & 0x00ff))
-            + (150 * ((color >> 8) & 0x00ff))
-            + (29 * (color & 0x00ff))) >> 8;
-}
-
-Light::Light() {
-    mLights.emplace(Type::BACKLIGHT, std::bind(&Light::handleBacklight, this, std::placeholders::_1));
-}
-
-void Light::handleBacklight(const LightState& state) {
-    int maxBrightness = get("/sys/class/leds/lcd-backlight/max_brightness", -1);
-    if (maxBrightness < 0) {
-        maxBrightness = 255;
-    }
-    int sentBrightness = rgbToBrightness(state);
-    int brightness = sentBrightness * maxBrightness / 255;
-    LOG(DEBUG) << "Writing backlight brightness " << brightness
-               << " (orig " << sentBrightness << ")";
-    set("/sys/class/leds/lcd-backlight/brightness", brightness);
-}
-
 Return<Status> Light::setLight(Type type, const LightState& state) {
-    auto it = mLights.find(type);
+    LightStateHandler handler = nullptr;
 
-    if (it == mLights.end()) {
+    /* Lock global mutex until light state is updated. */
+    std::lock_guard<std::mutex> lock(globalLock);
+    /* Update the cached state value for the current type. */
+    for (LightBackend& backend : backends) {
+        if (backend.type == type) {
+            backend.state = state;
+            handler = backend.handler;
+        }
+    }
+
+    /* If no handler has been found, then the type is not supported. */
+    if (!handler) {
         return Status::LIGHT_NOT_SUPPORTED;
     }
 
-    /*
-     * Lock global mutex until light state is updated.
-     */
-    std::lock_guard<std::mutex> lock(mLock);
-
-    it->second(state);
+    /* Light up the type with the highest priority that matches the current handler. */
+    for (LightBackend& backend : backends) {
+        if (handler == backend.handler && isLit(backend.state)) {
+            handler(backend.state);
+            return Status::SUCCESS;
+        }
+    }
+    /* If no type has been lit up, then turn off the hardware. */
+    handler(state);
 
     return Status::SUCCESS;
 }
@@ -91,8 +161,8 @@ Return<Status> Light::setLight(Type type, const LightState& state) {
 Return<void> Light::getSupportedTypes(getSupportedTypes_cb _hidl_cb) {
     std::vector<Type> types;
 
-    for (auto const& light : mLights) {
-        types.push_back(light.first);
+    for (const LightBackend& backend : backends) {
+        types.push_back(backend.type);
     }
 
     _hidl_cb(types);

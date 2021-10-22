@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2021 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,43 +14,34 @@
  * limitations under the License.
  */
 
-#ifndef ANDROID_HARDWARE_BIOMETRICS_FINGERPRINT_V2_1_BIOMETRICSFINGERPRINT_H
-#define ANDROID_HARDWARE_BIOMETRICS_FINGERPRINT_V2_1_BIOMETRICSFINGERPRINT_H
+#pragma once
 
-#include <log/log.h>
-#include <android/log.h>
-#include <hardware/hardware.h>
-#include <hardware/fingerprint.h>
+#include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
+#include <vendor/oplus/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprint.h>
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
-#include <android/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprint.h>
-#include <android/hardware/biometrics/fingerprint/2.1/types.h>
-#include <vendor/oplus/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprint.h>
 
 namespace android {
 namespace hardware {
 namespace biometrics {
 namespace fingerprint {
-namespace V2_1 {
+namespace V2_3 {
 namespace implementation {
 
-using ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint;
+using IBiometricsFingerprint_2_1 = ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint;
 using ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback;
 using ::android::hardware::biometrics::fingerprint::V2_1::RequestStatus;
+using ::android::hardware::hidl_array;
+using ::android::hardware::hidl_memory;
+using ::android::hardware::hidl_string;
+using ::android::hardware::hidl_vec;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
-using ::android::hardware::hidl_vec;
-using ::android::hardware::hidl_string;
-using ::android::OK;
 using ::android::sp;
-using ::android::status_t;
 
-class OplusClientCallback;
 struct BiometricsFingerprint : public IBiometricsFingerprint {
-public:
     BiometricsFingerprint();
-
-    // Methods from ::android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint follow.
+    // Methods from ::V2_1::IBiometricsFingerprint follow.
     Return<uint64_t> setNotify(const sp<IBiometricsFingerprintClientCallback>& clientCallback) override;
     Return<uint64_t> preEnroll() override;
     Return<RequestStatus> enroll(const hidl_array<uint8_t, 69>& hat, uint32_t gid, uint32_t timeoutSec) override;
@@ -61,28 +52,22 @@ public:
     Return<RequestStatus> remove(uint32_t gid, uint32_t fid) override;
     Return<RequestStatus> setActiveGroup(uint32_t gid, const hidl_string& storePath) override;
     Return<RequestStatus> authenticate(uint64_t operationId, uint32_t gid) override;
-    Return<RequestStatus> cleanUp();
-    Return<RequestStatus> pauseEnroll();
-    Return<RequestStatus> continueEnroll();
-    Return<RequestStatus> setTouchEventListener();
-    Return<RequestStatus> dynamicallyConfigLog(uint32_t on);
-    Return<RequestStatus> pauseIdentify();
-    Return<RequestStatus> continueIdentify();
-    Return<RequestStatus> getAlikeyStatus();
-    Return<RequestStatus> getEnrollmentTotalTimes();
-    Return<RequestStatus> getEngineeringInfo(uint32_t type);
+
+    // ::V2_3::IBiometricsFingerprint follow.
+    Return<bool> isUdfps(uint32_t sensorId) override;
+    Return<void> onFingerDown(uint32_t x, uint32_t y, float minor, float major) override;
+    Return<void> onFingerUp() override;
 
 private:
+    sp<IBiometricsFingerprint_2_1> biometrics_2_1_service;
     sp<vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint> mOplusBiometricsFingerprint;
-    sp<OplusClientCallback> mOplusClientCallback;
+    sp<vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback> mOplusClientCallback;
     static Return<RequestStatus> OplusToAOSPRequestStatus(vendor::oplus::hardware::biometrics::fingerprint::V2_1::RequestStatus req);
 };
 
 }  // namespace implementation
-}  // namespace V2_1
+}  // namespace V2_2
 }  // namespace fingerprint
 }  // namespace biometrics
 }  // namespace hardware
 }  // namespace android
-
-#endif  // ANDROID_HARDWARE_BIOMETRICS_FINGERPRINT_V2_1_BIOMETRICSFINGERPRINT_H

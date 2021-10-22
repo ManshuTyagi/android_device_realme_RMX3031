@@ -4,3 +4,13 @@ hal_server_domain(hal_fingerprint_RMX3031, hal_fingerprint)
 
 type hal_fingerprint_RMX3031_exec, system_file_type, exec_type, file_type;
 init_daemon_domain(hal_fingerprint_RMX3031)
+
+allow hal_fingerprint_RMX3031 hal_fingerprint_hwservice:hwservice_manager find;
+
+allow hal_fingerprint_RMX3031 sysfs_fod:file rw_file_perms;
+
+wakelock_use(hal_fingrprint_RMX3031)
+
+allow hal_fingerprint_RMX3031 sysfs:file write;
+
+allow hal_fingerprint_RMX3031 sysfs_fingerprint_notify:file write;

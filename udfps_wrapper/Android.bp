@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2019 The LineageOS Project
+// Copyright (C) 2021 The LineageOS Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,29 +14,34 @@
 // limitations under the License.
 
 cc_binary {
-    relative_install_path: "hw",
+    name: "android.hardware.biometrics.fingerprint@2.3-service.RMX3031",
     defaults: ["hidl_defaults"],
-    name: "lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031",
-    init_rc: ["lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031.rc"],
-    vintf_fragments: ["lineage.biometrics.fingerprint.inscreen@1.0-service.RMX3031.xml"],
+    init_rc: ["android.hardware.biometrics.fingerprint@2.3-service.RMX3031.rc"],
+    vintf_fragments: ["android.hardware.biometrics.fingerprint@2.3-service.RMX3031.xml"],
+    relative_install_path: "hw",
     srcs: [
-	"service.cpp",
-        "FingerprintInscreen.cpp",
+        "service.cpp",
+        "BiometricsFingerprint.cpp",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
     ],
     shared_libs: [
         "libbase",
-        "libhardware",
         "libhidlbase",
         "liblog",
         "libutils",
-        "vendor.lineage.biometrics.fingerprint.inscreen@1.0",
+        "android.hardware.biometrics.fingerprint@2.1",
+        "android.hardware.biometrics.fingerprint@2.2",
+        "android.hardware.biometrics.fingerprint@2.3",
+        "vendor.oplus.hardware.biometrics.fingerprint@2.1",
     ],
 }
 
 cc_library_static {
-    name: "libfod_extension.RMX3031",
-    srcs: ["FodExtension.cpp"],
+    name: "libudfps_extension.x2",
+    srcs: ["UdfpsExtension.cpp"],
     include_dirs: [
         "frameworks/native/services/surfaceflinger/CompositionEngine/include"
     ],
-} 
+}
