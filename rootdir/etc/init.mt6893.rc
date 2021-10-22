@@ -5,3 +5,7 @@ on init
 on post-fs-data
     # Services
     setprop init.svc.console stopped
+
+on property:sys.boot_completed=1
+    # OTG
+    write /sys/class/power_supply/usb/otg_switch 1
