@@ -17,7 +17,6 @@
 #define ANDROID_HARDWARE_LIGHT_V2_0_LIGHT_H
 
 #include <android/hardware/light/2.0/ILight.h>
-#include <hardware/lights.h>
 #include <hidl/Status.h>
 #include <unordered_map>
 #include <mutex>
