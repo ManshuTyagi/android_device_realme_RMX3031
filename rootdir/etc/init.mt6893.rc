@@ -8,10 +8,12 @@ on post-fs-data
 
 on post-fs
 
-on property:sys.boot_completed=1
-
 on property:init.svc.face_hal=restarting
     stop face_hal
+
+on property:sys.boot_completed=1
+    # OTG
+    write /sys/class/power_supply/usb/otg_switch 1
 
 service prop-adap-core-gsi /odm/bin/self-init gsicore
     class core
