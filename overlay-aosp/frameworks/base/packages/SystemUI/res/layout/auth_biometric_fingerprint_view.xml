@@ -103,8 +103,10 @@
         <Button android:id="@+id/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"Widget.DeviceDefault.Button.Colored"
-            android:maxLines="2"ty="center_vertical"
+            style="@*android:style/Widget.DeviceDefault.Button.Colored"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:maxWidth="@dimen/biometric_dialog_button_positive_max_width"
             android:text="@string/biometric_dialog_try_again"
             android:visibility="gone"/>
