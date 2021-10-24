@@ -94,6 +94,7 @@ PRODUCT_COPY_FILES += \
 # RcsService
 PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager \
+    RcsService \
     PresencePolling
 
 # Soong namespaces
