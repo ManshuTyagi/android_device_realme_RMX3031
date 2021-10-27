@@ -12,3 +12,6 @@ allow init sysfs_ged:file { w_file_perms setattr };
 
 # Allow init to change owner of /proc/cpufreq
 allow init proc_cpufreq:file { w_file_perms setattr };
+
+# Allow init to set smart charging and USB
+allow init sysfs_battery_supply:file { setattr };
