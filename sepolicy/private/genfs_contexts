@@ -1,0 +1,2 @@
+genfscon proc  /gpufreq     u:object_r:proc_gpufreq:s0
+genfscon proc  /touchpanel  u:object_r:proc_tp:s0

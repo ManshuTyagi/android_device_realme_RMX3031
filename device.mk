@@ -71,7 +71,8 @@ PRODUCT_PACKAGES += \
 # Init
 PRODUCT_PACKAGES += \
     init.mt6893.rc \
-    fstab.mt6893
+    fstab.mt6893 \
+    perf_profile.sh
 
 # Screen density
 PRODUCT_AAPT_CONFIG := xxxhdpi
