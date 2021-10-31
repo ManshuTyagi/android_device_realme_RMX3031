@@ -1,3 +1,7 @@
+# Bluetooth
+PRODUCT_PROPERTY_OVERRIDES += \
+     persist.bluetooth.bluetooth_audio_hal.disabled=true
+
 # Fingerprint
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.boot.realme.lockstate=0
