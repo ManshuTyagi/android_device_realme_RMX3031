@@ -113,6 +113,10 @@ PRODUCT_SOONG_NAMESPACES += \
 -include $(DEVICE_PATH)/system_prop.mk
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
+# Symbols
+PRODUCT_PACKAGES += \
+    libshim_vtservice
+
 # Telephony
 PRODUCT_BOOT_JARS += \
     mediatek-common \
@@ -122,6 +126,9 @@ PRODUCT_BOOT_JARS += \
     mediatek-telecom-common \
     mediatek-telephony-base \
     mediatek-telephony-common
+
+PRODUCT_PACKAGES += \
+    ImsServiceBase
 
 # Wi-Fi
 PRODUCT_PACKAGES += \
