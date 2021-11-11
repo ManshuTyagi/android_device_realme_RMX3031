@@ -116,4 +116,6 @@ PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 # Wi-Fi
 PRODUCT_PACKAGES += \
     TetheringConfigOverlay \
-    WifiOverlay
+    WifiOverlay \
+    DozeOverlaySystem \
+    DozeOverlaySystemUI
