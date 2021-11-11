@@ -37,8 +37,6 @@ echo 0-5 > /dev/cpuset/system-background/cpus
 echo 0-7 > /dev/cpuset/restricted/cpus
 
 # oplus touchpanel
-echo 1 > /proc/touchpanel/oplus_tp_limit_enable
-echo 0 > /proc/touchpanel/oplus_tp_direction
 echo 0 > /proc/touchpanel/game_switch_enable
 
 case $1 in
@@ -82,8 +80,6 @@ case $1 in
 	# echo 1 1923000 > /proc/ppm/policy/hard_userlimit_min_cpu_freq
 	# echo 0 1733000 > /proc/ppm/policy/hard_userlimit_min_cpu_freq
 
-	echo 0 > /proc/touchpanel/oplus_tp_limit_enable
-	echo 1 > /proc/touchpanel/oplus_tp_direction
 	echo 1 > /proc/touchpanel/game_switch_enable
 	;;
 esac
