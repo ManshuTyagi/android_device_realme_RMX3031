@@ -151,7 +151,7 @@ Return<uint64_t> BiometricsFingerprint::setNotify(const sp<IBiometricsFingerprin
     if (DEBUG_ADAPTOR) {
         LOG (INFO) << "setNotify(): was mOplusClientCallback invalid: " << (mOplusClientCallback == nullptr);
     }
-    return moplusBiometricsFingerprint->setNotify(mOplusClientCallback);
+    return mOplusBiometricsFingerprint->setNotify(mOplusClientCallback);
 }
 
 Return<RequestStatus> BiometricsFingerprint::OplusToAOSPRequestStatus(vendor::oplus::hardware::biometrics::fingerprint::V2_1::RequestStatus req) {
