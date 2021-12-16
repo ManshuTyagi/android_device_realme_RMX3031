@@ -37,14 +37,14 @@ int main() {
 
     status_t status = service->registerAsService();
     if (status != OK) {
-        ALOGE("Cannot register Light HAL service.";
+        ALOGE("Cannot register Light HAL service.");
         return 1;
     }
 
-    ALOGI("Light HAL service ready.";
+    ALOGI("Light HAL service ready.");
 
     joinRpcThreadpool();
 
-    ALOGI("Light HAL service failed to join thread pool.";
+    ALOGI("Light HAL service failed to join thread pool.");
     return 1;
 }
