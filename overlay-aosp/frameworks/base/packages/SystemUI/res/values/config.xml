@@ -13,7 +13,19 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Color of the FOD view -->
-    <color name="config_fodColor">#00ffffff</color>
+    <!-- Color of the UDFPS view -->
+    <color name="config_udfpsColor">#00ffffff</color>
+
+	<!-- HBM type of UDFPS overlay.
+            0 - GLOBAL HBM 
+            1 - LOCAL HBM
+    -->
+    <integer name="config_udfps_hbm_type">0</integer>
+
+    <!-- Doze: does this device support STATE_DOZE?  -->
+    <bool name="doze_display_state_supported">false</bool>
+
+    <!-- The radius of the enrollment progress bar, in dp -->
+    <integer name="config_udfpsEnrollProgressBar" translatable="false">102</integer>
 
 </resources>
