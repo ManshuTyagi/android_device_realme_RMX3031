@@ -12,7 +12,7 @@ odm                                              /odm                  ext4    r
 # Core Partitions
 /dev/block/by-name/metadata                      /metadata             ext4    noatime,nosuid,nodev,discard                                wait,check,formattable,first_stage_mount
 /dev/block/by-name/cache                         /cache                ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                wait,check,formattable
-/dev/block/by-name/userdata                      /data                 f2fs    noatime,nosuid,nodev,discard,noflush_merge,fsync_mode=nobarrier,reserve_root=134217,resgid=1065,inlinecrypt       wait,check,formattable,quota,latemount,resize,reservedsize=128m,checkpoint=fs,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,keydirectory=/metadata/vold/metadata_encryption,fsverity
+/dev/block/by-name/userdata                      /data                 f2fs    noatime,nosuid,nodev,discard,noflush_merge,fsync_mode=nobarrier,reserve_root=134217,resgid=1065,inlinecrypt       wait,check,formattable,quota,latemount,resize,reservedsize=128m,checkpoint=fs,encryptable=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,keydirectory=/metadata/vold/metadata_encryption,fsverity
 /dev/block/by-name/recovery                      /recovery             emmc    defaults                                                    first_stage_mount,nofail
 /dev/block/by-name/dtbo                          /dtbo                 emmc    defaults                                                    defaults
 /dev/block/by-name/boot                          /boot                 emmc    defaults                                                    first_stage_mount,nofail
