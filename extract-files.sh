@@ -18,7 +18,7 @@
 
 set -e
 
-export DEVICE=RMX3031
+export DEVICE=RMX2205
 export VENDOR=realme
 
 # Load extract_utils and do some sanity checks
