@@ -7,3 +7,5 @@ type proc_ppm, fs_type, proc_type;
 type sysfs_ged, sysfs_type, fs_type;
 type sysfs_battery_supply, sysfs_type, fs_type;
 type proc_tp, fs_type, proc_type;
+type sysfs_disp_hbm, sysfs_type, fs_type;
+type sysfs_graphics_ffl, sysfs_type, fs_type;

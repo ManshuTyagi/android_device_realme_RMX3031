@@ -10,3 +10,8 @@ set_prop(system_app, cabc_prop)
 # Allow system_app to set zram prop
 allow system_app sysfs_zram:dir search;
 allow system_app sysfs_zram:file { read open };
+
+# DC DIMMING $ HBM
+allow system_app sysfs_disp_hbm:file rw_file_perms;
+allow system_app sysfs_fod:file rw_file_perms;
+allow system_app sysfs_graphics_ffl:file rw_file_perms;
