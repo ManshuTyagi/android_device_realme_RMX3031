@@ -22,6 +22,12 @@
     <!-- Radius of the software rounded corners. -->
     <dimen name="rounded_corner_radius">115px</dimen>
 
+    <!-- Default adjustment for the software rounded corners since corners are not perfectly
+        round. This value is used when retrieving the "radius" of the rounded corner in cases
+        where the exact bezier curve cannot be retrieved.  This value will be subtracted from
+        rounded_corner_radius to more accurately provide a "radius" for the rounded corner. -->
+    <dimen name="rounded_corner_radius_adjustment">20px</dimen>
+
     <!-- Height of the status bar -->
     <dimen name="status_bar_height">81.0px</dimen>
 
