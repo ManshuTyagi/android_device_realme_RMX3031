@@ -16,6 +16,10 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.dbg.vt_avail_ovr=1 \
     persist.dbg.wfc_avail_ovr=1
 
+# Iorap
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.device_config.runtime_native_boot.iorap_readahead_enable=true
+
 # NFC
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.sys.nfc.disPowerSave=1 \
